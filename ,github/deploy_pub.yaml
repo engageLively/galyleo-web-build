@@ -1,0 +1,31 @@
+name: Deploy Galyleo Publication Page to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]   # or change to your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Optional: build or preprocess here if needed
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Copy static site to output
+        run: |
+          mkdir -p ./public
+          cp -r static/published/* ./public/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
